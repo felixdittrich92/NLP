@@ -2,7 +2,10 @@
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
-from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer, TfidfVectorizer
+from sklearn.svm import LinearSVC
+from sklearn.pipeline import Pipeline
+from sklearn import metrics
 
 # Wortschatz aufbauen Text 1
 vocab = {}
@@ -63,3 +66,31 @@ X_train_counts = count_vect.fit_transform(X_train)
 # (Zeilen, Wörter)
 print(X_train_counts.shape)
 
+tfidf_transformer = TfidfTransformer()
+X_train_tfidf = tfidf_transformer.fit_transform(X_train_counts)
+print(X_train_tfidf.shape)
+
+# beste , da Kombination 
+vectorizer = TfidfVectorizer()
+X_train_tfidf = vectorizer.fit_transform(X_train)
+print(X_train_tfidf.shape)
+
+# Modell trainieren 
+clf = LinearSVC()
+clf.fit(X_train_tfidf, y_train)
+
+# Pipeline anlegen / alles in einem 
+text_clf = Pipeline([('tfidf', TfidfVectorizer()), ('clf', LinearSVC())])
+text_clf.fit(X_train, y_train)
+
+predictions = text_clf.predict(X_test)
+print(predictions)
+# Konfusionsmatrix
+print(metrics.confusion_matrix(y_test, predictions))
+# weitere Metriken
+print(metrics.classification_report(y_test, predictions))
+# Genauigkeit
+print(metrics.accuracy_score(y_test, predictions))
+
+test = text_clf.predict(['Congratulations! You have been selected as winner.TEXT WON to 44255'])
+print(test)
