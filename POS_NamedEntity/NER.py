@@ -73,7 +73,7 @@ for sent in doc_en.sents:
     displacy.serve(nlp_en(sent.text), style='ent') #jupyter=True für Verwendung im Notebook
 
 # Anpassungen
-options = {'ents': ['ORG', 'PRODUCT'], 'colors': colors}
 colors = {'ORG': 'linear-gradient(45deg, red, blue)'} # radial-gradient ohne deg angabe
+options = {'ents': ['ORG', 'PRODUCT'], 'colors': colors}
 
 displacy.serve(doc_en, style='ent', options=options)
