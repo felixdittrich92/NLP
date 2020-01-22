@@ -1,4 +1,5 @@
 import spacy
+from scipy import spatial
 
 nlp = spacy.load('en_core_web_md')
 
@@ -21,3 +22,24 @@ for token in tokens:
     #        Text      ist vorhanden    vector als "Wert"   ist nicht vorhanden
     print(token.text, token.has_vector, token.vector_norm, token.is_oov)
 
+cosine_similarity = lambda x, y: 1 - spatial.distance.cosine(x, y)
+
+# king - men + woman  --> NEW vector: queen, princes
+king = nlp.vocab['king'].vector
+man = nlp.vocab['man'].vector
+woman = nlp.vocab['woman'].vector
+
+new_vector = king - man - woman
+
+computed_similarity = list()
+
+for word in nlp.vocab:
+    if word.has_vector:
+        if word.is_lower:
+            if word.is_alpha:
+                similarity = cosine_similarity(new_vector, word.vector)
+                computed_similarity.append((word, similarity))
+
+computed_similarities = sorted(computed_similarity, key=lambda item: -item[1])
+
+print([w[0].text for w in computed_similarities[:10]])
