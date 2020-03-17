@@ -1,0 +1,9 @@
+Labeln von unbekannten Datensätzen
+
+Themenmodellierung wird verwendet um ungekennzeichnete Daten (Dokumente/unsupervised learning) 
+automatisch zu labeln um danach mit den Methoden des supervised learning weiter zu verfahren.
+LDA - Latent Dirichlet Allocation
+NMF - Non negative Matrix Factorization // besser
+Labelt die Dokumente auf Basis angegebener Themen und Anzahl der Themen
+
+Siehe: Erklärung in LDA, da NMF fast identisch
