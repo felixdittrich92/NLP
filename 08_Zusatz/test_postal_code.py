@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-# pip3 install address
-from address import AddressParser
+# https://github.com/openvenues/pypostal
+
 import textract
 
 text = textract.process('/home/felix/Desktop/NLP/08_Zusatz/gray_300dpi.jpg', encoding='ascii')
